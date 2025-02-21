@@ -15,16 +15,36 @@ std::string convToLower(std::string src)
     to a set of words based on the criteria given in the assignment **/
 std::set<std::string> parseStringToWords(string rawWords)
 {
-
-
-
-
-
-
-
-
-
-
+    std::set<std::string> keyWords;
+    std::string buffer;
+    // Loops through word char by char
+    for (char c : rawWords)
+    {
+        // If it is a "good" character, add to buffer
+        if (std::isalnum(c))
+        {
+            buffer += c;
+        }
+        // If not add buffer to set, if it is long enough, and clear buffer
+        else
+        {
+            if (buffer.length() > 1)
+            {
+                keyWords.insert(convToLower(buffer));
+                buffer.clear();
+            }
+            else 
+            {
+              buffer.clear();
+            }
+        }
+    }
+    // For the last word (it will not hit a trigger char)
+    if (buffer.length() > 1)
+        {
+            keyWords.insert(convToLower(buffer));
+        }
+    return keyWords;
 }
 
 /**************************************************
@@ -55,3 +75,13 @@ std::string &rtrim(std::string &s) {
 std::string &trim(std::string &s) {
     return ltrim(rtrim(s));
 }
+
+
+// Helper function, to convert a double (price) to 2 digit decimal number
+std::string priceToString(double p)
+{
+  std::stringstream ss;
+  ss << std::fixed << std::setprecision(2) << p;
+  return ss.str();
+}
+
